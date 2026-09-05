@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'MS-Node'
+        label 'MS'
     }
     environment {
         DOCKER_IMAGE = "devsecopstrainer/cicd-react-ui"
