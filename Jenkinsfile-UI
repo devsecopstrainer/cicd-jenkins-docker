@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh 'docker build -f docker-repo/Dockerfile-UI -t devsecopstrainer/cicd-react-ui:${BUILD_NUMBER} .'
+                sh 'docker build -f docker-repo/Dockerfile-UI -t devsecopstrainer/cicd-react-ui:${BUILD_NUMBER} git-repo'
             }
         }
         stage('Docker Push') {
