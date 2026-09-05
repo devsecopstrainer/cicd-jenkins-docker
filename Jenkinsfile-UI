@@ -1,0 +1,12 @@
+pipeline {
+    agent {
+        label 'UI-Node'
+    }
+    stages {
+        stage('git-clone') {
+            steps {
+				      git branch: 'main', url: 'https://github.com/devsecopstrainer/cicd-react-ui.git'
+			      }
+        }
+    }
+}
