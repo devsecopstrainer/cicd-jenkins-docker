@@ -15,25 +15,16 @@ pipeline {
 				}
 			}
         }
-        stage('Install Dependencies') {
-            steps {
-				dir('git-repo') {
-					sh 'npm install && npm run build'
-				}
-            }
-        }
         stage('Checkout-Docker File') {
             steps {
                 dir('docker-repo') {
-				    //git branch: 'main', url: 'https://github.com/devsecopstrainer/cicd.git'
-						echo 'Hello World'
+				    git branch: 'main', url: 'https://github.com/devsecopstrainer/cicd-jenkins-docker.git'
 				}
             }
         }
         stage('Docker build') {
             steps {
-                //sh 'docker build -f docker-repo/cicd-react-ui-Dockerfile -t devsecopstrainer/cicd-react-ui:${BUILD_NUMBER} .'
-				echo 'Hello World'
+                sh 'docker build -f docker-repo/Dockerfile-UI -t devsecopstrainer/cicd-react-ui:${BUILD_NUMBER} .'
             }
         }
         stage('Docker Push') {
