@@ -29,8 +29,7 @@ pipeline {
         }
         stage('Docker Push') {
             steps {
-                //sh 'docker push devsecopstrainer/cicd-react-ui:${BUILD_NUMBER}'
-				echo 'Hello World'
+                sh 'docker push devsecopstrainer/cicd-react-ui:${BUILD_NUMBER}'
             }
         }
     }
