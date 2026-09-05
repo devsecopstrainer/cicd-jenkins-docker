@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        label 'MS-Node'
+    }
+    environment {
+        DOCKER_IMAGE = "devsecopstrainer/cicd-ms-api"
+        IMAGE_TAG    = "${BUILD_NUMBER}"
+        IMAGE_NAME   = "${DOCKER_IMAGE}:${IMAGE_TAG}"
+    }
+    stages {
+        stage('Checkout-Source Code') {
+            steps {
+				      dir('git-repo') {
+					      git branch: 'main', url: 'https://github.com/devsecopstrainer/cicd-ms-api.git'
+				    }
+			    }
+        }
+        stage('mvn-build') {
+            steps {
+				      dir('git-repo') {
+					      sh 'mvn clean package'
+				      }
+			    }
+        }
+        stage('Checkout-Docker File') {
+            steps {
+                dir('docker-repo') {
+				          git branch: 'main', url: 'https://github.com/devsecopstrainer/cicd-jenkins-docker.git'
+				        }
+            }
+        }
+        stage('Docker build') {
+            steps {
+                sh 'docker build -f docker-repo/Dockerfile-MS -t $IMAGE_NAME git-repo'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                sh 'docker push $IMAGE_NAME'
+            }
+        }
+    }
+}
