@@ -32,5 +32,16 @@ pipeline {
                 sh 'docker push $IMAGE_NAME'
             }
         }
+        stage('K8S Deploy') {
+            steps {
+                dir('k8s-repo') {
+				    git branch: 'main', url: 'https://github.com/devsecopstrainer/project-kubernetes-yml.git'
+				    sh """
+				    sed -i 's|image: ${DOCKER_IMAGE}:.*|image: ${IMAGE_NAME}|' ui/ui-deployment.yaml
+				    kubectl apply -f ui/ui-deployment.yaml
+				    """
+				}
+            }
+        }
     }
 }
